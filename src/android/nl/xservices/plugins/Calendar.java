@@ -25,8 +25,8 @@ import nl.xservices.plugins.accessor.LegacyCalendarAccessor;
 public class Calendar extends CordovaPlugin {
     public static final String ACTION_CREATE_EVENT_WITH_OPTIONS = "createEventWithOptions";
     public static final String ACTION_CREATE_EVENT_INTERACTIVELY = "createEventInteractively";
-    public static final String ACTION_DELETE_EVENT = "deleteEvent";
-    public static final String ACTION_FIND_EVENT = "findEvent";
+    public static final String ACTION_DELETE_EVENT = "deleteEvent";    
+    public static final String ACTION_FIND_EVENT = "findEventWithOptions";
     public static final String ACTION_LIST_EVENTS_IN_RANGE = "listEventsInRange";
     public static final String ACTION_LIST_CALENDARS = "listCalendars";
 

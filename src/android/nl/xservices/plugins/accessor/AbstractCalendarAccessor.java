@@ -124,11 +124,11 @@ public abstract class AbstractCalendarAccessor {
         String selection = "";
         List<String> selectionList = new ArrayList<String>();
 
-        if (title != null) {
+        if (title != null && !title.equals("null")) {
             selection += Events.TITLE + "=?";
             selectionList.add(title);
         }
-        if (location != null) {
+        if (location != null && !location.equals("null")) {
             if (!"".equals(selection)) {
                 selection += " AND ";
             }
@@ -353,11 +353,11 @@ public abstract class AbstractCalendarAccessor {
         String where = "";
         List<String> selectionList = new ArrayList<String>();
 
-        if (title != null) {
+        if (title != null && !title.equals("null")) {
             where += Events.TITLE + "=?";
             selectionList.add(title);
         }
-        if (location != null) {
+        if (location != null && !location.equals("null")) {
             if (!"".equals(where)) {
                 where += " AND ";
             }
@@ -415,7 +415,7 @@ public abstract class AbstractCalendarAccessor {
 
             Log.d(LOG_TAG, "Added to ContentResolver");
 
-            if (firstReminderMinutes != null) {
+            if (firstReminderMinutes != null && !firstReminderMinutes.equals("null")) {
                 ContentValues reminderValues = new ContentValues();
                 reminderValues.put("event_id", Long.parseLong(uri.getLastPathSegment()));
                 reminderValues.put("minutes", firstReminderMinutes);
@@ -423,7 +423,7 @@ public abstract class AbstractCalendarAccessor {
                 cr.insert(Uri.parse(CONTENT_PROVIDER + CONTENT_PROVIDER_PATH_REMINDERS), reminderValues);
             }
 
-            if (secondReminderMinutes != null) {
+            if (secondReminderMinutes != null && !secondReminderMinutes.equals("null")) {
                 ContentValues reminderValues = new ContentValues();
                 reminderValues.put("event_id", Long.parseLong(uri.getLastPathSegment()));
                 reminderValues.put("minutes", secondReminderMinutes);
