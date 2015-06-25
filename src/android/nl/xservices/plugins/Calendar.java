@@ -91,7 +91,6 @@ public class Calendar extends CordovaPlugin {
 
     private AbstractCalendarAccessor getCalendarAccessor() {
         if (this.calendarAccessor == null) {
-            // Note: currently LegacyCalendarAccessor is never used, see the TODO at the top of this class
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 Log.d(LOG_TAG, "Initializing calendar plugin");
                 this.calendarAccessor = new CalendarProviderAccessor(this.cordova);
@@ -174,52 +173,21 @@ public class Calendar extends CordovaPlugin {
     }
 
     private boolean listEventsInRange(JSONArray args) {
+
+        if (args.length() == 0) {
+            System.err.println("Exception: No Arguments passed");
+        }
         try {
-            Uri l_eventUri;
-            if (Build.VERSION.SDK_INT >= 8) {
-                l_eventUri = Uri.parse("content://com.android.calendar/events");
-            } else {
-                l_eventUri = Uri.parse("content://calendar/events");
-            }
-            ContentResolver contentResolver = this.cordova.getActivity().getContentResolver();
             JSONObject jsonFilter = args.getJSONObject(0);
-            JSONArray result = new JSONArray();
-            long input_start_date = jsonFilter.optLong("startTime");
-            long input_end_date = jsonFilter.optLong("endTime");
+            JSONArray jsonEvents = getCalendarAccessor().findEvents(null, null,
+                    jsonFilter.optLong("startTime"),
+                    jsonFilter.optLong("endTime"));
 
-            //prepare start date
-            java.util.Calendar calendar_start = java.util.Calendar.getInstance();
-            Date date_start = new Date(input_start_date);
-            calendar_start.setTime(date_start);
-
-            //prepare end date
-            java.util.Calendar calendar_end = java.util.Calendar.getInstance();
-            Date date_end = new Date(input_end_date);
-            calendar_end.setTime(date_end);
-
-            //projection of DB columns
-            String[] l_projection = new String[]{"calendar_id", "title", "dtstart", "dtend", "eventLocation", "allDay"};
-
-            //actual query
-            Cursor cursor = contentResolver.query(l_eventUri, l_projection, "( dtstart >" + calendar_start.getTimeInMillis() + " AND dtend <" + calendar_end.getTimeInMillis() + " AND deleted = 0)", null, "dtstart ASC");
-
-            int i = 0;
-            while (cursor.moveToNext()) {
-                result.put(
-                        i++,
-                        new JSONObject()
-                                .put("calendar_id", cursor.getString(cursor.getColumnIndex("calendar_id")))
-                                .put("title", cursor.getString(cursor.getColumnIndex("title")))
-                                .put("dtstart", cursor.getLong(cursor.getColumnIndex("dtstart")))
-                                .put("dtend", cursor.getLong(cursor.getColumnIndex("dtend")))
-                                .put("eventLocation", cursor.getString(cursor.getColumnIndex("eventLocation")) != null ? cursor.getString(cursor.getColumnIndex("eventLocation")) : "")
-                                .put("allDay", cursor.getInt(cursor.getColumnIndex("allDay")))
-                );
-            }
-
-            PluginResult res = new PluginResult(PluginResult.Status.OK, result);
+            PluginResult res = new PluginResult(PluginResult.Status.OK, jsonEvents);
+            res.setKeepCallback(true);
             callback.sendPluginResult(res);
             return true;
+
         } catch (JSONException e) {
             System.err.println("Exception: " + e.getMessage());
         }
