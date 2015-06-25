@@ -126,8 +126,8 @@ Operation                           | Comment     | iOS | Android
 ----------------------------------- | ----------- | --- | -------
 createCalendar                      |             | yes | 
 deleteCalendar                      |             | yes | 
-createEvent                         | silent      | yes | yes (on Android < 4 dialog is shown)
-createEventWithOptions              | silent      | yes | yes (on Android < 4 dialog is shown)
+createEvent                         | silent      | yes | yes dialog is shown
+createEventWithOptions              | silent      | yes | yes dialog is shown
 createEventInteractively            | interactive | yes | yes
 createEventInteractivelyWithOptions | interactive | yes | yes
 findEvent                           |             | yes | yes
