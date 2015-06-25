@@ -105,6 +105,7 @@ public class Calendar extends CordovaPlugin {
     private boolean deleteEvent(JSONArray args) {
         if (args.length() == 0) {
             System.err.println("Exception: No Arguments passed");
+            callback.error("No arguments passed");
         } else {
             try {
                 JSONObject jsonFilter = args.getJSONObject(0);
@@ -128,46 +129,53 @@ public class Calendar extends CordovaPlugin {
     private boolean findEvents(JSONArray args) {
         if (args.length() == 0) {
             System.err.println("Exception: No Arguments passed");
-        }
-        try {
-            JSONObject jsonFilter = args.getJSONObject(0);
-            JSONArray jsonEvents = getCalendarAccessor().findEvents(
-                    jsonFilter.isNull("title") ? null : jsonFilter.optString("title"),
-                    jsonFilter.isNull("location") ? null : jsonFilter.optString("location"),
-                    jsonFilter.optLong("startTime"),
-                    jsonFilter.optLong("endTime"));
+            callback.error("No arguments passed");
+        } else {
+          try {
+              JSONObject jsonFilter = args.getJSONObject(0);
+              JSONArray jsonEvents = getCalendarAccessor().findEvents(
+                      jsonFilter.isNull("title") ? null : jsonFilter.optString("title"),
+                      jsonFilter.isNull("location") ? null : jsonFilter.optString("location"),
+                      jsonFilter.optLong("startTime"),
+                      jsonFilter.optLong("endTime"));
 
-            PluginResult res = new PluginResult(PluginResult.Status.OK, jsonEvents);
-            res.setKeepCallback(true);
-            callback.sendPluginResult(res);
-            return true;
+              PluginResult res = new PluginResult(PluginResult.Status.OK, jsonEvents);
+              res.setKeepCallback(true);
+              callback.sendPluginResult(res);
+              return true;
 
-        } catch (JSONException e) {
-            System.err.println("Exception: " + e.getMessage());
+          } catch (JSONException e) {
+              System.err.println("Exception: " + e.getMessage());
+          }
         }
         return false;
     }
 
     private boolean createEvent(JSONArray args) {
-        try {
-            final JSONObject argObject = args.getJSONObject(0);
+        if (args.length() == 0) {
+            System.err.println("Exception: No Arguments passed");
+            callback.error("No arguments passed");
+        } else {
+          try {
+              final JSONObject argObject = args.getJSONObject(0);
 
-            Intent intent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, argObject.getLong("startTime"))
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, argObject.getLong("endTime"))
-                    .putExtra(CalendarContract.Events.TITLE, argObject.getString("title"))
-                    .putExtra(CalendarContract.Events.DESCRIPTION, argObject.isNull("notes") ? null : argObject.getString("notes"))
-                    .putExtra(CalendarContract.Events.EVENT_LOCATION, argObject.isNull("location") ? null : argObject.getString("location"))
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+              Intent intent = new Intent(Intent.ACTION_INSERT)
+                      .setData(CalendarContract.Events.CONTENT_URI)
+                      .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, argObject.getLong("startTime"))
+                      .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, argObject.getLong("endTime"))
+                      .putExtra(CalendarContract.Events.TITLE, argObject.getString("title"))
+                      .putExtra(CalendarContract.Events.DESCRIPTION, argObject.isNull("notes") ? null : argObject.getString("notes"))
+                      .putExtra(CalendarContract.Events.EVENT_LOCATION, argObject.isNull("location") ? null : argObject.getString("location"))
+                      .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
 
-            this.cordova.getActivity().startActivity(intent);
-            callback.success("");
+              this.cordova.getActivity().startActivity(intent);
+              callback.success("");
 
-            return true;
-        } catch (Exception e) {
-            System.err.println("Exception: " + e.getMessage());
-            callback.error("Unable to add event");
+              return true;
+          } catch (Exception e) {
+              System.err.println("Exception: " + e.getMessage());
+              callback.error("Unable to add event");
+          }
         }
         return false;
     }
@@ -176,20 +184,22 @@ public class Calendar extends CordovaPlugin {
 
         if (args.length() == 0) {
             System.err.println("Exception: No Arguments passed");
-        }
-        try {
-            JSONObject jsonFilter = args.getJSONObject(0);
-            JSONArray jsonEvents = getCalendarAccessor().findEvents(null, null,
-                    jsonFilter.optLong("startTime"),
-                    jsonFilter.optLong("endTime"));
+            callback.error("No arguments passed");
+        } else {
+          try {
+              JSONObject jsonFilter = args.getJSONObject(0);
+              JSONArray jsonEvents = getCalendarAccessor().findEvents(null, null,
+                      jsonFilter.optLong("startTime"),
+                      jsonFilter.optLong("endTime"));
 
-            PluginResult res = new PluginResult(PluginResult.Status.OK, jsonEvents);
-            res.setKeepCallback(true);
-            callback.sendPluginResult(res);
-            return true;
+              PluginResult res = new PluginResult(PluginResult.Status.OK, jsonEvents);
+              res.setKeepCallback(true);
+              callback.sendPluginResult(res);
+              return true;
 
-        } catch (JSONException e) {
-            System.err.println("Exception: " + e.getMessage());
+          } catch (JSONException e) {
+              System.err.println("Exception: " + e.getMessage());
+          }
         }
         return false;
     }
