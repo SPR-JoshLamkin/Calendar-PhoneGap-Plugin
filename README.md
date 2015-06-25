@@ -139,7 +139,7 @@ modifyEvent                         |             | yes |
 modifyEventWithOptions              |             | yes | 
 deleteEvent                         |             | yes | yes
 deleteEventFromNamedCalendar        |             | yes | 
-openCalendar                        |             | yes | yes
+openCalendar                        |             | yes | 
 
 Basic operations, you'll want to copy-paste this for testing purposes:
 
