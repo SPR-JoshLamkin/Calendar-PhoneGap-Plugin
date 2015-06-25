@@ -43,6 +43,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -72,14 +73,21 @@ public abstract class AbstractCalendarAccessor {
     }
 
     public static boolean isAllDayEvent(final Date startDate, final Date endDate) {
+
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(startDate);
+
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(endDate);
+
         return
                 endDate.getTime() - startDate.getTime() == (24 * 60 * 60 * 1000) &&
-                        startDate.getHours() == 0 &&
-                        startDate.getMinutes() == 0 &&
-                        startDate.getSeconds() == 0 &&
-                        endDate.getHours() == 0 &&
-                        endDate.getMinutes() == 0 &&
-                        endDate.getSeconds() == 0;
+                        startCalendar.get(Calendar.HOUR) == 0 &&
+                        startCalendar.get(Calendar.MINUTE) == 0 &&
+                        startCalendar.get(Calendar.SECOND) == 0 &&
+                        endCalendar.get(Calendar.HOUR) == 0 &&
+                        endCalendar.get(Calendar.MINUTE) == 0 &&
+                        endCalendar.get(Calendar.SECOND) == 0;
     }
 
     protected abstract EnumMap<KeyIndex, String> initContentProviderKeys();
