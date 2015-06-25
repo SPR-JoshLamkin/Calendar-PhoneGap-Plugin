@@ -42,11 +42,11 @@ This plugin allows you to add events to the Calendar of the mobile device.
 Calendar is compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman) and ready for the [PhoneGap 3.0 CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features), here's how it works with the CLI:
 
 ```
-$ phonegap local plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
+$ phonegap local plugin add https://github.com/SPR-JoshLamkin/Calendar-PhoneGap-Plugin.git
 ```
 or
 ```
-$ cordova plugin add https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git
+$ cordova plugin add https://github.com/SPR-JoshLamkin/Calendar-PhoneGap-Plugin.git
 ```
 and run this command afterwards:
 ```
@@ -126,8 +126,8 @@ Operation                           | Comment     | iOS | Android
 ----------------------------------- | ----------- | --- | -------
 createCalendar                      |             | yes | 
 deleteCalendar                      |             | yes | 
-createEvent                         | silent      | yes | yes (on Android < 4 dialog is shown)
-createEventWithOptions              | silent      | yes | yes (on Android < 4 dialog is shown)
+createEvent                         | silent      | yes | yes dialog is shown
+createEventWithOptions              | silent      | yes | yes dialog is shown
 createEventInteractively            | interactive | yes | yes
 createEventInteractivelyWithOptions | interactive | yes | yes
 findEvent                           |             | yes | yes
